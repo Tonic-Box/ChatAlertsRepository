@@ -1,18 +1,36 @@
 package net.runelite.client.plugins.chatalerts;
 
 import lombok.AllArgsConstructor;
-import net.runelite.client.config.Button;
-import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.*;
 
 @ConfigGroup("ChatAlerts")
 public interface ChatAlertsConfig extends Config {
+    @ConfigSection(
+            name = "Alert Mediums",
+            description = "",
+            position = 0
+    )
+    String alert_mediums = "alert_mediums";
+    @ConfigSection(
+            name = "Telemetry Settings",
+            description = "",
+            position = 1
+    )
+    String telemetry_settings = "telemetry_settings";
+
+    @ConfigSection(
+            name = "Discord Config",
+            description = "",
+            position = 2
+    )
+    String discord_config = "discord_config";
+
     @ConfigItem(
             keyName = "alert_mode",
             name = "Alert Mode",
             description = "",
-            position = -1
+            position = 0,
+            section = telemetry_settings
     )
     default AlertMode alert_mode()
     {
@@ -23,7 +41,8 @@ public interface ChatAlertsConfig extends Config {
             keyName = "keywords",
             name = "Key Words",
             description = "",
-            position = 0
+            position = 1,
+            section = telemetry_settings
     )
     default String keywords()
     {
@@ -34,7 +53,8 @@ public interface ChatAlertsConfig extends Config {
             keyName = "FilterProfanity",
             name = "Profanity Filter",
             description = "",
-            position = 1
+            position = 2,
+            section = telemetry_settings
     )
     default boolean profanityFilter()
     {
@@ -42,10 +62,22 @@ public interface ChatAlertsConfig extends Config {
     }
 
     @ConfigItem(
+            keyName = "alert_level_up",
+            name = "Level Up Alerts",
+            description = "",
+            position = 3,
+            section = telemetry_settings
+    )
+    default boolean alert_level_up() {
+        return false;
+    }
+
+    @ConfigItem(
             keyName = "alert_sound",
             name = "Play Sound",
             description = "",
-            position = 2
+            position = 0,
+            section = alert_mediums
     )
     default boolean alert_sound() {
         return false;
@@ -55,7 +87,8 @@ public interface ChatAlertsConfig extends Config {
             keyName = "alert_win_notification",
             name = "Windows Notification",
             description = "",
-            position = 3
+            position = 1,
+            section = alert_mediums
     )
     default boolean alert_win_notification() {
         return false;
@@ -65,19 +98,21 @@ public interface ChatAlertsConfig extends Config {
             keyName = "alert_discord",
             name = "Discord Alerts",
             description = "",
-            position = 4
+            position = 2,
+            section = alert_mediums
     )
     default boolean alert_discord() {
         return false;
     }
 
     @ConfigItem(
-            keyName = "alert_level_up",
-            name = "Level Up Alerts",
+            keyName = "alert_logs",
+            name = "Keep Text Logs",
             description = "",
-            position = 5
+            position = 3,
+            section = alert_mediums
     )
-    default boolean alert_level_up() {
+    default boolean alert_logs() {
         return false;
     }
 
@@ -85,7 +120,9 @@ public interface ChatAlertsConfig extends Config {
             keyName = "token",
             name = "Discord Bot Token",
             description = "",
-            position = 6
+            position = 0,
+            secret = true,
+            section = discord_config
     )
     default String token()
     {
@@ -96,7 +133,8 @@ public interface ChatAlertsConfig extends Config {
             keyName = "Master UID",
             name = "Your discord UID",
             description = "",
-            position = 7
+            position = 1,
+            section = discord_config
     )
     default String uid() {
         return "";
@@ -106,7 +144,8 @@ public interface ChatAlertsConfig extends Config {
             keyName = "discordtoken",
             name = "Start Discord Response Bot",
             description = "",
-            position = 7
+            position = 2,
+            section = discord_config
     )
     default Button discordtoken() {
         return new Button();
@@ -116,7 +155,8 @@ public interface ChatAlertsConfig extends Config {
             keyName = "clear",
             name = "Clear Discord Log Chanel",
             description = "",
-            position = 8
+            position = 3,
+            section = discord_config
     )
     default Button clear() {
         return new Button();
@@ -126,20 +166,11 @@ public interface ChatAlertsConfig extends Config {
             keyName = "invite",
             name = "Copy Bot Invite to clipboard",
             description = "",
-            position = 8
+            position = 4,
+            section = discord_config
     )
     default Button invite() {
         return new Button();
-    }
-
-    @ConfigItem(
-            keyName = "alert_logs",
-            name = "Keep Text Logs",
-            description = "",
-            position = 9
-    )
-    default boolean alert_logs() {
-        return false;
     }
 
     @ConfigItem(
